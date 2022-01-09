@@ -67,7 +67,10 @@ class _QRViewScreenState extends State<QRViewScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: result != null
-                            ? Text('Ссылка: ${result!.code}')
+                            ? const Icon(
+                                Icons.assignment_turned_in_outlined,
+                                color: Colors.green,
+                              )
                             : const Text('Отсканируйте QR код'),
                       ),
                       Row(
@@ -105,7 +108,7 @@ class _QRViewScreenState extends State<QRViewScreen> {
                                 future: controller?.getCameraInfo(),
                                 builder: (context, snapshot) {
                                   return const Icon(
-                                    Icons.refresh,
+                                    Icons.wifi_protected_setup,
                                     color: Colors.white,
                                   );
                                 },
