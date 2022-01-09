@@ -1,17 +1,18 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_coder/modules/screen/widgets/card_widget.dart';
+import 'package:qr_coder/modules/main_screen/widgets/card_widget.dart';
+import 'package:qr_coder/utils/navigation/navigation.dart';
 
 /// Главный экран приложения
-class Screen extends StatefulWidget {
-  const Screen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<Screen> createState() => _ScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _ScreenState extends State<Screen> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +79,12 @@ class _ScreenState extends State<Screen> {
                                 topButtonIcon: Icons.camera_alt_outlined,
                                 bottomButtonText: 'Галерея',
                                 bottomButtonIcon: Icons.slideshow,
+                                functionTop: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
+                                functionBottom: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
                               ),
                               child: CardWidget(
                                 title: 'Добавить QR код',
@@ -97,6 +104,12 @@ class _ScreenState extends State<Screen> {
                                 topButtonIcon: Icons.visibility_rounded,
                                 bottomButtonText: 'Нет',
                                 bottomButtonIcon: Icons.visibility_off,
+                                functionTop: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
+                                functionBottom: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
                               ),
                               child: CardWidget(
                                 title: 'Показывать при запуске приложения ',
@@ -117,6 +130,12 @@ class _ScreenState extends State<Screen> {
                                 topButtonIcon: Icons.camera_alt_outlined,
                                 bottomButtonText: 'Галерея',
                                 bottomButtonIcon: Icons.slideshow,
+                                functionTop: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
+                                functionBottom: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
                               ),
                               child: CardWidget(
                                 title: 'Заменить QR код',
@@ -136,6 +155,12 @@ class _ScreenState extends State<Screen> {
                                 topButtonIcon: Icons.delete,
                                 bottomButtonText: 'Отмена',
                                 bottomButtonIcon: Icons.cancel,
+                                functionTop: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
+                                functionBottom: () => Navigator.of(context)
+                                    .pushNamed(
+                                        MainNavigationRouteName.viewScreen),
                               ),
                               child: CardWidget(
                                 title: 'Удалить',
@@ -227,6 +252,8 @@ class _ScreenState extends State<Screen> {
     required String bottomButtonText,
     required IconData topButtonIcon,
     required IconData bottomButtonIcon,
+    required Function() functionTop,
+    required Function() functionBottom,
   }) {
     if (Platform.isIOS) {
       return showCupertinoModalPopup(
@@ -234,9 +261,7 @@ class _ScreenState extends State<Screen> {
         builder: (context) => CupertinoActionSheet(
           actions: [
             CupertinoActionSheetAction(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => functionTop(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -246,9 +271,7 @@ class _ScreenState extends State<Screen> {
               ),
             ),
             CupertinoActionSheetAction(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => functionBottom(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -270,16 +293,12 @@ class _ScreenState extends State<Screen> {
               ListTile(
                 title: Text(topButtonText),
                 leading: Icon(topButtonIcon),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
+                onTap: () => functionTop(),
               ),
               ListTile(
                 title: Text(bottomButtonText),
                 leading: Icon(bottomButtonIcon),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
+                onTap: () => functionBottom(),
               ),
             ],
           );

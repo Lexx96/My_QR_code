@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'modules/screen/screen.dart';
+import 'package:qr_coder/utils/navigation/navigation.dart';
 
 void main() {
   runApp(const Home());
@@ -15,9 +15,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Screen(),
+    return MaterialApp(
+      routes: MainNavigation().routes,
+      initialRoute: MainNavigation().initialRouteMain,
     );
   }
 }
-
