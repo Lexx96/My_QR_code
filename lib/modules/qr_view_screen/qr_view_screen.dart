@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'bloc/qr_view_screen_bloc.dart';
@@ -172,30 +171,7 @@ class _QRViewScreenState extends State<QRViewScreen> {
         borderWidth: 10,
         cutOutSize: scanArea,
       ),
-      onPermissionSet: (controller, p) =>
-          _onPermissionSet(context, controller, p),
     );
-  }
-
-  // void _onQRViewCreated(QRViewController controller) async{
-  //
-  //   setState(() {
-  //     this.controller = controller;
-  //   });
-  //   controller.scannedDataStream.listen((scanData) {
-  //     setState(() {
-  //       result = scanData;
-  //     });
-  //   });
-  // }
-
-  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-    if (!p) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
-      );
-    }
   }
 
   @override
