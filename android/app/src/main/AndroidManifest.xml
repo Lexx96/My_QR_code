@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kofami.qr_coder">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="qr_coder"
         android:name="${applicationName}"

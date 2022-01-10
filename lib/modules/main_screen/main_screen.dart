@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_coder/modules/main_screen/widgets/card_widget.dart';
-import 'package:qr_coder/utils/navigation/navigation.dart';
+import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
 
 /// Главный экран приложения
 class MainScreen extends StatefulWidget {
@@ -160,7 +160,7 @@ class _MainScreenState extends State<MainScreen> {
                                         MainNavigationRouteName.viewScreen),
                                 functionBottom: () => Navigator.of(context)
                                     .pushNamed(
-                                        MainNavigationRouteName.viewScreen),
+                                        MainNavigationRouteName.showQRScreen),
                               ),
                               child: CardWidget(
                                 title: 'Удалить',
@@ -182,63 +182,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  /// Показывает уведомление для пользователя
-  void showMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        if (Platform.isIOS) {
-          return CupertinoPageScaffold(
-            child: Center(
-              child: CupertinoButton(
-                onPressed: () {
-                  showCupertinoDialog<void>(
-                    context: context,
-                    builder: (BuildContext context) => CupertinoAlertDialog(
-                      title: const Text('Alert'),
-                      content: const Text('Proceed with destructive action?'),
-                      actions: <CupertinoDialogAction>[
-                        CupertinoDialogAction(
-                          child: const Text('No'),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: const Text('Yes'),
-                          isDestructiveAction: true,
-                          onPressed: () {
-                            // Do something destructive.
-                          },
-                        )
-                      ],
-                    ),
-                  );
-                },
-                child: const Text('CupertinoAlertDialog'),
-              ),
-            ),
-          );
-        } else {
-          return AlertDialog(
-            backgroundColor: const Color.fromRGBO(210, 226, 239, 1.0),
-            title: const Center(
-              child: Text(
-                '\n \nТема события не должна быть короче 10 символов',
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        }
-      },
     );
   }
 

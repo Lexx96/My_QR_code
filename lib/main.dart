@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_coder/utils/navigation/navigation.dart';
+import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
 
 void main() {
   runApp(const Home());

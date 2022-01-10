@@ -5,16 +5,23 @@ class QRViewState {
   QRViewState();
   factory QRViewState.loadingViewState(Barcode result) = LoadingViewState;
   factory QRViewState.onToggleFlash(bool? onFlash) = OnToggleFlashState;
+  factory QRViewState.uRLIsTrueState(String? url) = URLIsTrueState;
 }
 
-/// Состояние получения ссылки
+/// Состояние получения ссылки, принимаеет Barcode [result]
 class LoadingViewState extends QRViewState {
   Barcode result;
   LoadingViewState(this.result);
 }
 
-/// Состояние включение и отключения фонарика
+/// Состояние включение и отключения фонарика, принимаеет bool [isOnFlash]
 class OnToggleFlashState extends QRViewState {
-  bool? onFlash;
-  OnToggleFlashState(this.onFlash);
+  bool? isOnFlash;
+  OnToggleFlashState(this.isOnFlash);
+}
+
+/// Состояние при верном url, принимаеет bool [isTrue]
+class URLIsTrueState extends QRViewState {
+  String? url;
+  URLIsTrueState(this.url);
 }
