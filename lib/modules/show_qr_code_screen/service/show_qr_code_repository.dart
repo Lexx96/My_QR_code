@@ -1,20 +1,29 @@
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+abstract class SharedPreferencesKeys {
+  static const url = 'url';
+}
 
 /// Класс получения данных модуля show_qr_code_screen
 class ShowCodeRepository {
-  var client = http.Client();
+  final _storage = SharedPreferences.getInstance();
 
-  /// Получение данных по url, принимает String [url]
-  Future<Response> getUserData(String url) async {
-    Response response = await client.get(Uri.parse(url));
-    return response;
+  /// Запись ссылки на QR код, принимает ссылку String? [url]
+  Future<void> setURL(String? url) async {
+    final storage = await _storage;
+    storage.setString(SharedPreferencesKeys.url, url!);
+    final f = await readURL();
   }
 
-  ///Получение данных для виджета WebView, принимает контроллекр WebViewController [controller]
-  Future<String> getDataWebView(WebViewController controller) async {
-    return await controller.runJavascriptReturningResult(
-        "window.document.getElementsByClassName('mb-4 person-data-wrap align-items-center')[0].getElementsByClassName('small-text gray mr-4')[0].outerHTML;");
+  /// Чтение ссылки на QR код
+  Future<String?> readURL() async {
+    final storage = await _storage;
+    return storage.getString(SharedPreferencesKeys.url);
+  }
+
+  /// Удаление ссылки на QR код
+  Future<String?> deleteURL() async {
+    final storage = await _storage;
+    storage.clear();
   }
 }

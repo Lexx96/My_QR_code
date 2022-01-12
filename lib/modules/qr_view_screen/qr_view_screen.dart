@@ -18,7 +18,6 @@ class _QRViewScreenState extends State<QRViewScreen> {
   late bool? _flashStatus = false;
   late URLIsTrueState _isURLTrue;
 
-  Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -45,11 +44,6 @@ class _QRViewScreenState extends State<QRViewScreen> {
       body: StreamBuilder(
         stream: _bloc.viewStreamController,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.data is LoadingViewState) {
-            final _viewData = snapshot.data as LoadingViewState;
-            result = _viewData.result;
-          }
-
           if (snapshot.data is OnToggleFlashState) {
             final _flash = snapshot.data as OnToggleFlashState;
             _flashStatus = _flash.isOnFlash;
@@ -111,22 +105,23 @@ class _QRViewScreenState extends State<QRViewScreen> {
                                 Container(
                                   margin: const EdgeInsets.only(right: 10.0),
                                   child: ElevatedButton(
-                                      onPressed: () => _bloc.onToggleFlash(),
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                          const Color.fromRGBO(242, 76, 78, 1),
-                                        ),
+                                    onPressed: () => _bloc.onToggleFlash(),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        const Color.fromRGBO(242, 76, 78, 1),
                                       ),
-                                      child: _flashStatus == false
-                                          ? const Icon(
-                                              Icons.wb_sunny_outlined,
-                                              color: Colors.black,
-                                            )
-                                          : const Icon(
-                                              Icons.wb_sunny_outlined,
-                                              color: Colors.white,
-                                            )),
+                                    ),
+                                    child: _flashStatus == false
+                                        ? const Icon(
+                                            Icons.wb_sunny_outlined,
+                                            color: Colors.black,
+                                          )
+                                        : const Icon(
+                                            Icons.wb_sunny_outlined,
+                                            color: Colors.white,
+                                          ),
+                                  ),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(left: 10.0),

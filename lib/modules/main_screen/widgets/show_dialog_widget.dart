@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// TODO разобраться с вызовами функций
 /// Виджет вывода оповещения
 class ShowDialogWidget extends StatelessWidget {
   final String? title;
@@ -58,22 +59,27 @@ class ShowDialogWidget extends StatelessWidget {
           )
         : AlertDialog(
             backgroundColor: const Color.fromRGBO(210, 226, 239, 1.0),
-            title: Center(
+            title: title != null
+                ? Center(child: Text(title!))
+                : const SizedBox.shrink(),
+            content: Center(
               child: Text(
                 '\n \n$description',
               ),
             ),
             actions: [
-              textLeftButton != null
-                  ? TextButton(
-                      onPressed: () => onTabLeftButton,
-                      child: Text(textLeftButton!),
-                    )
-                  : const SizedBox.shrink(),
               textRightButton != null
                   ? TextButton(
                       onPressed: () => onTabRightButton,
                       child: Text(textRightButton!),
+                    )
+                  : const SizedBox.shrink(),
+              textLeftButton != null
+                  ? TextButton(
+                      onPressed: onTabLeftButton != null
+                          ? () => onTabLeftButton!()
+                          : null,
+                      child: Text(textLeftButton!),
                     )
                   : const SizedBox.shrink(),
             ],

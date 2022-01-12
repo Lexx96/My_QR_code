@@ -6,7 +6,6 @@ import 'package:qr_coder/modules/qr_view_screen/service/screen_service.dart';
 /// Класс управления состоянием модуля qr_view_screen
 class QRViewBloc {
   QRViewController? controller;
-
   QRViewBloc(this.controller);
 
   final _viewStreamController = StreamController<QRViewState>();
@@ -40,11 +39,11 @@ class QRViewBloc {
 
   /// Включение и отключение фанарика
   void onToggleFlash() async {
-    await QRViewScreenService()
-        .changeToggleFlashService(controller)
-        .then((_status) {
-      _viewStreamController.sink.add(QRViewState.onToggleFlash(_status));
-    });
+    await QRViewScreenService().changeToggleFlashService(controller).then(
+      (_status) {
+        _viewStreamController.sink.add(QRViewState.onToggleFlash(_status));
+      },
+    );
   }
 
   /// Переключение между основной и фронтальной камерами

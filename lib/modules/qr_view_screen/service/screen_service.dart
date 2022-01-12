@@ -1,5 +1,4 @@
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qr_coder/modules/qr_view_screen/service/screen_repository.dart';
 
 /// Класс обработки данных модуля qr_view_screen
 class QRViewScreenService {
@@ -20,20 +19,8 @@ class QRViewScreenService {
     await controller?.pauseCamera();
   }
 
-  /// Постановка камеры на паузу
+  /// Снятие камеры с паузы
   Future<void> resumeCameraService(QRViewController? controller) async {
     await controller?.resumeCamera();
-  }
-
-  /// Запись ссылки на QR код
-  void setUrlService(String? url) async {
-    if (url != null) {
-      await QRViewScreenRepository().setURL(url);
-    }
-  }
-
-  /// Чтение ссылки на QR код
-  Future<String?> readeURLService() async {
-    return await QRViewScreenRepository().readURL();
   }
 }
