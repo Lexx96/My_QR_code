@@ -5,7 +5,6 @@ import 'package:qr_coder/modules/main_screen/widgets/card_widget.dart';
 import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
-
 import 'bloc/main_screen_bloc.dart';
 import 'bloc/main_screen_state.dart';
 
