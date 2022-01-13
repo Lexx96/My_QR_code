@@ -32,8 +32,12 @@ class ShowCodeBloc {
   }
 
   /// Состояние для показа виджета QR кода, после загрузки старницы WebView
-  void showQRCode() {
-    _showCodeStreamController.sink.add(ShowCodeState.showQRCodeState());
+  void showQRCode() async {
+    await Future.delayed(const Duration(milliseconds: 200)).whenComplete(
+      () {
+        _showCodeStreamController.sink.add(ShowCodeState.showQRCodeState());
+      },
+    );
   }
 
   void dispose() {

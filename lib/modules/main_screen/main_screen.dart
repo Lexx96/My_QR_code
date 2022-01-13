@@ -7,6 +7,7 @@ import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
 import 'bloc/main_screen_bloc.dart';
 import 'bloc/main_screen_state.dart';
+import 'service/main_screen_service.dart';
 
 /// Главный экран приложения
 class MainScreen extends StatefulWidget {
@@ -18,7 +19,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late MainScreenBloc _bloc;
-  late String? _url = null;
+  late bool? _isShowScreen = false;
+  String? _url = null;
 
   @override
   void initState() {
@@ -36,6 +38,13 @@ class _MainScreenState extends State<MainScreen> {
           if (snapshot.data is ReadURLFromSharedPreferencesState) {
             final _data = snapshot.data as ReadURLFromSharedPreferencesState;
             _url = _data.url;
+          }
+
+          if (snapshot.data
+              is ReadIsShowQRCodeScreenFromSharedPreferencesState) {
+            final _isShowQRCodeScreen = snapshot.data
+                as ReadIsShowQRCodeScreenFromSharedPreferencesState;
+            _isShowScreen = _isShowQRCodeScreen.isShowQRCodeScreen;
           }
 
           return ListView(
@@ -102,9 +111,11 @@ class _MainScreenState extends State<MainScreen> {
                                     ? InkWell(
                                         onTap: () => showActions(
                                           topButtonText: 'Показать',
-                                          topButtonIcon:
-                                              Icons.camera_alt_outlined,
-                                          functionTop: () =>
+                                          topButtonIcon: const Icon(
+                                            Icons.camera_alt_outlined,
+                                          ),
+                                          bottomButtonIcon: null,
+                                          functionTopButton: () =>
                                               Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (_) => ShowQRCodeScreen(
@@ -112,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                             ),
                                           ),
-                                          functionBottom: () {},
+                                          functionBottomBottom: () {},
                                         ),
                                         child: CardWidget(
                                           title: 'Ваш QR код',
@@ -127,15 +138,16 @@ class _MainScreenState extends State<MainScreen> {
                                     : InkWell(
                                         onTap: () => showActions(
                                           topButtonText: 'Камера',
-                                          topButtonIcon:
-                                              Icons.camera_alt_outlined,
+                                          topButtonIcon: const Icon(
+                                              Icons.camera_alt_outlined),
                                           bottomButtonText: 'Галерея',
-                                          bottomButtonIcon: Icons.slideshow,
-                                          functionTop: () =>
+                                          bottomButtonIcon:
+                                              const Icon(Icons.slideshow),
+                                          functionTopButton: () =>
                                               Navigator.of(context).pushNamed(
                                                   MainNavigationRouteName
                                                       .viewScreen),
-                                          functionBottom: () =>
+                                          functionBottomBottom: () =>
                                               Navigator.of(context).pushNamed(
                                                   MainNavigationRouteName
                                                       .viewScreen),
@@ -154,18 +166,46 @@ class _MainScreenState extends State<MainScreen> {
                                   height: 20.0,
                                 ),
                                 InkWell(
-                                  onTap: () => showActions(
-                                    topButtonText: 'Да',
-                                    topButtonIcon: Icons.visibility_rounded,
-                                    bottomButtonText: 'Нет',
-                                    bottomButtonIcon: Icons.visibility_off,
-                                    functionTop: () => Navigator.of(context)
-                                        .pushNamed(
-                                            MainNavigationRouteName.viewScreen),
-                                    functionBottom: () => Navigator.of(context)
-                                        .pushNamed(
-                                            MainNavigationRouteName.viewScreen),
-                                  ),
+                                  onTap: _url != null
+                                      ? () {
+                                          _bloc.isShowQRCodeScreen();
+                                          showActions(
+                                            topButtonText: 'Да',
+                                            bottomButtonText: 'Нет',
+                                            topButtonIcon: _isShowScreen == true
+                                                ? const Icon(
+                                                    Icons.visibility_rounded,
+                                                    color: Colors.green,
+                                                  )
+                                                : const Icon(
+                                                    Icons.visibility_rounded,
+                                                  ),
+                                            bottomButtonIcon:
+                                                _isShowScreen == false
+                                                    ? const Icon(
+                                                        Icons.visibility_off,
+                                                        color: Colors.green,
+                                                      )
+                                                    : const Icon(
+                                                        Icons.visibility_off,
+                                                      ),
+                                            functionTopButton: () async {
+                                              await MainScreenService()
+                                                  .setIsShowQRCodeScreenService(
+                                                      true);
+                                              _bloc.isShowQRCodeScreen();
+                                              Navigator.of(context).pop();
+                                            },
+                                            functionBottomBottom: () async {
+                                              await MainScreenService()
+                                                  .setIsShowQRCodeScreenService(
+                                                      false);
+                                              _bloc.isShowQRCodeScreen();
+                                              Navigator.of(context).pop();
+                                            },
+                                          );
+                                        }
+                                      : () {},
                                   child: CardWidget(
                                     title: 'Показывать при запуске приложения ',
                                     description: '',
@@ -183,27 +223,21 @@ class _MainScreenState extends State<MainScreen> {
                                   onTap: _url != null
                                       ? () => showActions(
                                             topButtonText: 'Камера',
-                                            topButtonIcon:
-                                                Icons.camera_alt_outlined,
                                             bottomButtonText: 'Галерея',
-                                            bottomButtonIcon: Icons.slideshow,
-                                            functionTop: () =>
+                                            topButtonIcon: const Icon(
+                                                Icons.camera_alt_outlined),
+                                            bottomButtonIcon:
+                                                const Icon(Icons.slideshow),
+                                            functionTopButton: () =>
                                                 Navigator.of(context).pushNamed(
                                                     MainNavigationRouteName
                                                         .viewScreen),
-                                            functionBottom: () =>
+                                            functionBottomBottom: () =>
                                                 Navigator.of(context).pushNamed(
                                                     MainNavigationRouteName
                                                         .viewScreen),
                                           )
-                                      : () => ShowDialogWidget(
-                                            title: '',
-                                            description:
-                                                'Вы еще не добавили свой QR код',
-                                            textLeftButton: 'ОК',
-                                            onTabLeftButton: () =>
-                                                Navigator.of(context).pop(),
-                                          ),
+                                      : () {},
                                   child: CardWidget(
                                     title: 'Заменить QR код',
                                     description: '',
@@ -218,18 +252,23 @@ class _MainScreenState extends State<MainScreen> {
                                   height: 20.0,
                                 ),
                                 InkWell(
-                                  onTap: () => showActions(
-                                    topButtonText: 'Удалить',
-                                    bottomButtonText: 'Отмена',
-                                    topButtonIcon: Icons.delete,
-                                    bottomButtonIcon: Icons.cancel,
-                                    functionTop: () {
-                                      _bloc.deleteURLFromSharedPreferences();
-                                      Navigator.of(context).pop();
-                                    },
-                                    functionBottom: () =>
-                                        Navigator.of(context).pop(),
-                                  ),
+                                  onTap: _url != null
+                                      ? () => showActions(
+                                            topButtonText: 'Удалить',
+                                            bottomButtonText: 'Отмена',
+                                            topButtonIcon:
+                                                const Icon(Icons.delete),
+                                            bottomButtonIcon:
+                                                const Icon(Icons.cancel),
+                                            functionTopButton: () {
+                                              _bloc
+                                                  .deleteURLFromSharedPreferences();
+                                              Navigator.of(context).pop();
+                                            },
+                                            functionBottomBottom: () =>
+                                                Navigator.of(context).pop(),
+                                          )
+                                      : () {},
                                   child: CardWidget(
                                     title: 'Удалить',
                                     description: '',
@@ -263,11 +302,11 @@ class _MainScreenState extends State<MainScreen> {
   /// иконку нижней кнопки IconData [bottomButtonText],
   dynamic showActions({
     required String topButtonText,
-    required IconData topButtonIcon,
-    required Function() functionTop,
+    required Icon topButtonIcon,
+    required Function() functionTopButton,
     String? bottomButtonText,
-    IconData? bottomButtonIcon,
-    required Function() functionBottom,
+    required Icon? bottomButtonIcon,
+    required Function() functionBottomBottom,
   }) {
     if (Platform.isIOS) {
       return showCupertinoModalPopup(
@@ -275,23 +314,23 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context) => CupertinoActionSheet(
           actions: [
             CupertinoActionSheetAction(
-              onPressed: () => functionTop(),
+              onPressed: () => functionTopButton(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(topButtonText),
-                  Icon(topButtonIcon),
+                  topButtonIcon,
                 ],
               ),
             ),
-            bottomButtonText != null
+            bottomButtonText != null && bottomButtonIcon != null
                 ? CupertinoActionSheetAction(
-                    onPressed: () => functionBottom(),
+                    onPressed: () => functionBottomBottom(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(bottomButtonText),
-                        Icon(bottomButtonIcon),
+                        bottomButtonIcon,
                       ],
                     ),
                   )
@@ -308,14 +347,14 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               ListTile(
                 title: Text(topButtonText),
-                leading: Icon(topButtonIcon),
-                onTap: () => functionTop(),
+                leading: topButtonIcon,
+                onTap: () => functionTopButton(),
               ),
               bottomButtonText != null
                   ? ListTile(
                       title: Text(bottomButtonText),
-                      leading: Icon(bottomButtonIcon),
-                      onTap: () => functionBottom(),
+                      leading: bottomButtonIcon,
+                      onTap: () => functionBottomBottom(),
                     )
                   : const SizedBox.shrink(),
             ],
@@ -323,5 +362,11 @@ class _MainScreenState extends State<MainScreen> {
         },
       );
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc.dispose();
   }
 }

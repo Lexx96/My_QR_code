@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:qr_coder/modules/main_screen/service/main_screen_service.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/service/show_qr_code_service.dart';
 import 'main_screen_state.dart';
 
@@ -27,5 +28,21 @@ class MainScreenBloc {
             .add(MainScreenState.readURLFromSharedPreferencesState(null));
       },
     );
+  }
+
+  /// Проверка значения для показа экрана ShowQRCodeScreen при запуске приложения
+  void isShowQRCodeScreen() async {
+    await MainScreenService().readeIsShowQRCodeScreenService().then(
+      (isShowQRCodeScreen) {
+        _mainScreenStreamController.sink.add(
+          MainScreenState.readIsShowQRCodeScreenFromSharedPreferencesState(
+              isShowQRCodeScreen),
+        );
+      },
+    );
+  }
+
+  void dispose() {
+    _mainScreenStreamController.close();
   }
 }
