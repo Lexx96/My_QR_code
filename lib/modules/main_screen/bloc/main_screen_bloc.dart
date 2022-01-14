@@ -14,8 +14,9 @@ class MainScreenBloc {
   void getURLFromSharedPreferences() async {
     await ShowCodeService().readeURLService().then(
       (url) {
-        _mainScreenStreamController.sink
-            .add(MainScreenState.readURLFromSharedPreferencesState(url));
+        _mainScreenStreamController.sink.add(
+          MainScreenState.readURLFromSharedPreferencesState(url),
+        );
       },
     );
   }
@@ -24,19 +25,8 @@ class MainScreenBloc {
   void deleteURLFromSharedPreferences() {
     ShowCodeService().deleteURLService().whenComplete(
       () {
-        _mainScreenStreamController.sink
-            .add(MainScreenState.readURLFromSharedPreferencesState(null));
-      },
-    );
-  }
-
-  /// Проверка значения для показа экрана ShowQRCodeScreen при запуске приложения
-  void isShowQRCodeScreen() async {
-    await MainScreenService().readeIsShowQRCodeScreenService().then(
-      (isShowQRCodeScreen) {
         _mainScreenStreamController.sink.add(
-          MainScreenState.readIsShowQRCodeScreenFromSharedPreferencesState(
-              isShowQRCodeScreen),
+          MainScreenState.readURLFromSharedPreferencesState(null),
         );
       },
     );

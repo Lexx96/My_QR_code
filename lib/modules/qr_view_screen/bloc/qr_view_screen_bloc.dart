@@ -26,7 +26,9 @@ class QRViewBloc {
               );
               break;
             default:
-              _viewStreamController.sink.add(QRViewState.uRLIsTrueState(null));
+              _viewStreamController.sink.add(
+                QRViewState.uRLIsTrueState(null),
+              );
           }
         } else {
           _viewStreamController.sink.add(

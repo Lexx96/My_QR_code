@@ -59,6 +59,7 @@ class _QRViewScreenState extends State<QRViewScreen> {
                     MaterialPageRoute(
                       builder: (_) => ShowQRCodeScreen(
                         url: _isURLTrue.url,
+                        isShowButtonExit: false,
                       ),
                     ),
                   );

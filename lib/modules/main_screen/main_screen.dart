@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_coder/modules/main_screen/widgets/card_widget.dart';
-import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
 import 'bloc/main_screen_bloc.dart';
@@ -20,7 +19,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   late MainScreenBloc _bloc;
   late bool? _isShowScreen = false;
-  String? _url = null;
+  late String? _url = null;
 
   @override
   void initState() {
@@ -38,13 +37,6 @@ class _MainScreenState extends State<MainScreen> {
           if (snapshot.data is ReadURLFromSharedPreferencesState) {
             final _data = snapshot.data as ReadURLFromSharedPreferencesState;
             _url = _data.url;
-          }
-
-          if (snapshot.data
-              is ReadIsShowQRCodeScreenFromSharedPreferencesState) {
-            final _isShowQRCodeScreen = snapshot.data
-                as ReadIsShowQRCodeScreenFromSharedPreferencesState;
-            _isShowScreen = _isShowQRCodeScreen.isShowQRCodeScreen;
           }
 
           return ListView(
@@ -120,6 +112,7 @@ class _MainScreenState extends State<MainScreen> {
                                             MaterialPageRoute(
                                               builder: (_) => ShowQRCodeScreen(
                                                 url: _url,
+                                                isShowButtonExit: true,
                                               ),
                                             ),
                                           ),
@@ -167,8 +160,9 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 InkWell(
                                   onTap: _url != null
-                                      ? () {
-                                          _bloc.isShowQRCodeScreen();
+                                      ? () async {
+                                          _isShowScreen = await MainScreenService()
+                                              .readeIsShowQRCodeScreenService();
                                           showActions(
                                             topButtonText: 'Да',
                                             bottomButtonText: 'Нет',
@@ -193,14 +187,12 @@ class _MainScreenState extends State<MainScreen> {
                                               await MainScreenService()
                                                   .setIsShowQRCodeScreenService(
                                                       true);
-                                              _bloc.isShowQRCodeScreen();
                                               Navigator.of(context).pop();
                                             },
                                             functionBottomBottom: () async {
                                               await MainScreenService()
                                                   .setIsShowQRCodeScreenService(
                                                       false);
-                                              _bloc.isShowQRCodeScreen();
                                               Navigator.of(context).pop();
                                             },
                                           );
