@@ -109,7 +109,9 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                                             ? widget.url as String
                                             : _urlFromSharedPreferences,
                                         version: QrVersions.auto,
-                                        size: 200.0,
+                                        size:
+                                            MediaQuery.of(context).size.height *
+                                                0.3,
                                       ),
                                     ),
                                   ],
@@ -122,17 +124,28 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                         ? ShowDialogWidget(
                             title: 'Отлично!',
                             description: 'Ваш QR код сохранен.',
-                            textLeftButton: 'ОК',
-                            onTabLeftButton: () => Navigator.of(context)
+                            textRightButton: 'ОК',
+                            onTabRightButton: () => Navigator.of(context)
                                 .pushNamed(MainNavigationRouteName.mainScreen),
                           )
-                        : const SizedBox.shrink()
+                        : const SizedBox.shrink(),
+                    snapshot.data == null
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 100.0),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: const Align(
+                                alignment: Alignment.topCenter,
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ],
             ),
-            bottomNavigationBar: widget.isShowButtonExit != null &&
-                    widget.isShowButtonExit == false
+            bottomNavigationBar: widget.isShowButtonExit == false
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

@@ -32,6 +32,33 @@ class MainScreenBloc {
     );
   }
 
+  /// Получение URL из галереи или памяти устройства по изображению
+  void choicePickImage() {
+    MainScreenService().getImageFile().then(
+      (qrCode) async {
+        if (qrCode.toString().substring(49).length >= 24) {
+          switch (qrCode.toString().substring(49, 73)) {
+            case 'https://www.gosuslugi.ru':
+              _mainScreenStreamController.sink.add(
+                MainScreenState.readURLFromGalleryState(
+                  qrCode.toString().substring(49),
+                ),
+              );
+              break;
+            default:
+              _mainScreenStreamController.sink.add(
+                MainScreenState.readURLFromGalleryState(null),
+              );
+          }
+        } else {
+          _mainScreenStreamController.sink.add(
+            MainScreenState.readURLFromGalleryState(null),
+          );
+        }
+      },
+    );
+  }
+
   void dispose() {
     _mainScreenStreamController.close();
   }

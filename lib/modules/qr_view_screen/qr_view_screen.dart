@@ -75,7 +75,7 @@ class _QRViewScreenState extends State<QRViewScreen> {
                       flex: 5,
                       child: Center(
                         child: Text(
-                          'Супер!',
+                          'Отлично!',
                           style: TextStyle(fontSize: 80.0, color: Colors.green),
                         ),
                       ),

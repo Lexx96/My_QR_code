@@ -60,7 +60,9 @@ class ShowDialogWidget extends StatelessWidget {
         : AlertDialog(
             backgroundColor: const Color.fromRGBO(210, 226, 239, 1.0),
             title: title != null
-                ? Center(child: Text(title!))
+                ? Center(
+                    child: Text(title!),
+                  )
                 : const SizedBox.shrink(),
             content: Center(
               child: Text(
@@ -68,20 +70,28 @@ class ShowDialogWidget extends StatelessWidget {
               ),
             ),
             actions: [
-              textRightButton != null
-                  ? TextButton(
-                      onPressed: () => onTabRightButton,
-                      child: Text(textRightButton!),
-                    )
-                  : const SizedBox.shrink(),
-              textLeftButton != null
-                  ? TextButton(
-                      onPressed: onTabLeftButton != null
-                          ? () => onTabLeftButton!()
-                          : null,
-                      child: Text(textLeftButton!),
-                    )
-                  : const SizedBox.shrink(),
+              Row(
+                mainAxisAlignment:
+                    textLeftButton != null && textRightButton != null
+                        ? MainAxisAlignment.spaceAround
+                        : MainAxisAlignment.center,
+                children: [
+                  textLeftButton != null && onTabLeftButton != null
+                      ? TextButton(
+                          onPressed: onTabLeftButton != null
+                              ? () => onTabLeftButton!()
+                              : null,
+                          child: Text(textLeftButton!),
+                        )
+                      : const SizedBox.shrink(),
+                  textRightButton != null && onTabRightButton != null
+                      ? TextButton(
+                          onPressed: () => onTabRightButton!(),
+                          child: Text(textRightButton!),
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              ),
             ],
           );
   }

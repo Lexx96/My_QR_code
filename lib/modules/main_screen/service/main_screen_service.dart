@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:r_scan/r_scan.dart';
 import 'main_screen_repository.dart';
 
 /// Класс обработки данных модуля main_screen
@@ -12,5 +15,14 @@ class MainScreenService {
   /// Чтение значения для показа экрана ShowQRCodeScreen при запуске приложения
   Future<bool?> readeIsShowQRCodeScreenService() async {
     return await MainScreenRepository().readIsShowQRCodeScreenRepository();
+  }
+
+  /// Получение изображения из галереи или памяти устройства
+  Future<String?> getImageFile() async {
+    final XFile? imageXFile = await MainScreenRepository().pickImageXFile();
+    if (imageXFile != null) {
+      final result = await RScan.scanImagePath(imageXFile.path);
+      return result.toString();
+    }
   }
 }

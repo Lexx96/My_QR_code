@@ -18,9 +18,7 @@ class MainNavigation {
   final routes = <String, Widget Function(BuildContext)>{
     MainNavigationRouteName.mainScreen: (context) => const MainScreen(),
     MainNavigationRouteName.viewScreen: (context) => const QRViewScreen(),
-    MainNavigationRouteName.showQRScreen: (context) => const ShowQRCodeScreen(
-          url: null,
-          isShowButtonExit: null,
-        ),
+    MainNavigationRouteName.showQRScreen: (context) =>
+        const ShowQRCodeScreen(url: null, isShowButtonExit: null),
   };
 }
