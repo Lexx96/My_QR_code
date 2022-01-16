@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_coder/modules/qr_view_screen/bloc/qr_view_screen_state.dart';
-import 'package:qr_coder/modules/qr_view_screen/service/screen_service.dart';
+import 'package:qr_coder/modules/qr_view_screen/service/qr_view_screen_service.dart';
 
 /// Класс управления состоянием модуля qr_view_screen
 class QRViewBloc {

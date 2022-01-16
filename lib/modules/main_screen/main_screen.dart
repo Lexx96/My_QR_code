@@ -150,10 +150,9 @@ class _MainScreenState extends State<MainScreen> {
                                       : InkWell(
                                           onTap: () => showActions(
                                             topButtonText: 'Камера',
-                                            topButtonIcon: const Icon(
-                                              Icons.camera_alt_outlined,
-                                            ),
                                             centerButtonText: 'Галерея',
+                                            topButtonIcon: const Icon(
+                                                Icons.camera_alt_outlined),
                                             centerButtonIcon:
                                                 const Icon(Icons.slideshow),
                                             functionTopButton: () =>
@@ -161,9 +160,7 @@ class _MainScreenState extends State<MainScreen> {
                                                     MainNavigationRouteName
                                                         .viewScreen),
                                             functionCenterBottom: () =>
-                                                Navigator.of(context).pushNamed(
-                                                    MainNavigationRouteName
-                                                        .viewScreen),
+                                                _bloc.choicePickImage(),
                                           ),
                                           child: CardWidget(
                                             title: 'Добавить QR код',
@@ -242,13 +239,10 @@ class _MainScreenState extends State<MainScreen> {
                                         ? () => showActions(
                                               topButtonText: 'Камера',
                                               centerButtonText: 'Галерея',
-                                              bottomButtonText: 'Указать URL',
                                               topButtonIcon: const Icon(
                                                   Icons.camera_alt_outlined),
                                               centerButtonIcon:
                                                   const Icon(Icons.slideshow),
-                                              bottomButtonIcon: const Icon(
-                                                  Icons.vpn_lock_sharp),
                                               functionTopButton: () => Navigator
                                                       .of(context)
                                                   .pushNamed(
@@ -256,7 +250,6 @@ class _MainScreenState extends State<MainScreen> {
                                                           .viewScreen),
                                               functionCenterBottom: () =>
                                                   _bloc.choicePickImage(),
-                                              functionBottomBottom: () {},
                                             )
                                         : () {},
                                     child: CardWidget(
