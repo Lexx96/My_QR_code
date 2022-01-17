@@ -311,7 +311,7 @@ class _MainScreenState extends State<MainScreen> {
                                             )
                                         : () {},
                                     child: CardWidget(
-                                      title: S.of(context).cancel,
+                                      title: S.of(context).delete,
                                       description: '',
                                       color:
                                           const Color.fromRGBO(79, 199, 254, 1),
