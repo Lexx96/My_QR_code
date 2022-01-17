@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_coder/generated/l10n.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
 import 'bloc/qr_view_screen_bloc.dart';
 import 'bloc/qr_view_screen_state.dart';
@@ -71,12 +72,13 @@ class _QRViewScreenState extends State<QRViewScreen> {
           return Column(
             children: <Widget>[
               snapshot.data is URLIsTrueState && _isURLTrue.url != null
-                  ? const Expanded(
+                  ? Expanded(
                       flex: 5,
                       child: Center(
                         child: Text(
-                          'Отлично!',
-                          style: TextStyle(fontSize: 80.0, color: Colors.green),
+                          S.of(context).great,
+                          style: const TextStyle(
+                              fontSize: 80.0, color: Colors.green),
                         ),
                       ),
                     )
@@ -94,11 +96,11 @@ class _QRViewScreenState extends State<QRViewScreen> {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: snapshot.data is URLIsTrueState &&
                                       _isURLTrue.url == null
-                                  ? const Text(
-                                      'QR код не является сертификатом о прохождении вакцинации',
-                                      style: TextStyle(color: Colors.red),
+                                  ? Text(
+                                      S.of(context).QRCodeIsNotCertificate,
+                                      style: const TextStyle(color: Colors.red),
                                     )
-                                  : const Text('Отсканируйте QR код'),
+                                  : Text(S.of(context).scanQR),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

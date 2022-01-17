@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// TODO разобраться с вызовами функций
 /// Виджет вывода оповещения
 class ShowDialogWidget extends StatelessWidget {
   final String? title;
@@ -69,7 +68,7 @@ class ShowDialogWidget extends StatelessWidget {
                     : const SizedBox.shrink(),
                 content: Center(
                   child: Text(
-                    '\n \n$description',
+                    '\n$description',
                   ),
                 ),
                 actions: [

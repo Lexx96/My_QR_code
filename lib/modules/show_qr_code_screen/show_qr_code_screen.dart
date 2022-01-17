@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_coder/generated/l10n.dart';
 import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -122,9 +123,9 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                     ),
                     snapshot.data is RecordedURLState
                         ? ShowDialogWidget(
-                            title: 'Отлично!',
-                            description: 'Ваш QR код сохранен.',
-                            textRightButton: 'ОК',
+                            title: S.of(context).great,
+                            description: S.of(context).QRCodeIsSaved,
+                            textRightButton: S.of(context).ok,
                             onTabRightButton: () => Navigator.of(context)
                                 .pushNamed(MainNavigationRouteName.mainScreen),
                           )
@@ -155,10 +156,10 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
                                       (route) => false),
-                              child: const Text('Отмена'),
+                              child: Text(S.of(context).cancel),
                             )
                           : CupertinoButton(
-                              child: const Text('Отмена'),
+                              child: Text(S.of(context).cancel),
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
@@ -168,10 +169,10 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                           ? TextButton(
                               onPressed: () => _bloc.setURLSharedPreferences(
                                   widget.url as String),
-                              child: const Text('Сохранить'),
+                              child: Text(S.of(context).save),
                             )
                           : CupertinoButton(
-                              child: const Text('Сохранить'),
+                              child: Text(S.of(context).save),
                               onPressed: () => _bloc.setURLSharedPreferences(
                                   widget.url as String),
                             ),
@@ -186,22 +187,30 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
                                       (route) => false),
-                              child: const Text('На главный экран'),
+                              child: Text(
+                                S.of(context).toMainScreen,
+                              ),
                             )
                           : CupertinoButton(
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
                                       (route) => false),
-                              child: const Text('На главный экран'),
+                              child: Text(
+                                S.of(context).toMainScreen,
+                              ),
                             ),
                       Platform.isAndroid
                           ? TextButton(
                               onPressed: () => exit(0),
-                              child: const Text('Выйти'),
+                              child: Text(
+                                S.of(context).exit,
+                              ),
                             )
                           : CupertinoButton(
-                              child: const Text('Выйти'),
+                              child: Text(
+                                S.of(context).exit,
+                              ),
                               onPressed: () => exit(0),
                             ),
                     ],

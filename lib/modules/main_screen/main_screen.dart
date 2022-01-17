@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_coder/generated/l10n.dart';
 import 'package:qr_coder/modules/main_screen/widgets/card_widget.dart';
 import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
@@ -111,10 +112,10 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              'Привет!',
-                              style: TextStyle(
+                              S.of(context).hello,
+                              style: const TextStyle(
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromRGBO(71, 84, 108, 1),
@@ -127,8 +128,8 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         Text(
                           _url != null
-                              ? 'Рады тебя видеть'
-                              : 'Добавьте свой QR код',
+                              ? S.of(context).gladSeeYou
+                              : S.of(context).addYourQR,
                           style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -156,7 +157,7 @@ class _MainScreenState extends State<MainScreen> {
                                             ),
                                           ),
                                           child: CardWidget(
-                                            title: 'Показать QR код',
+                                            title: S.of(context).showQR,
                                             description: '',
                                             color: const Color.fromRGBO(
                                                 242, 76, 78, 1),
@@ -167,8 +168,9 @@ class _MainScreenState extends State<MainScreen> {
                                         )
                                       : InkWell(
                                           onTap: () => _showActions(
-                                            topButtonText: 'Камера',
-                                            centerButtonText: 'Галерея',
+                                            topButtonText: S.of(context).camera,
+                                            centerButtonText:
+                                                S.of(context).gallery,
                                             topButtonIcon: const Icon(
                                                 Icons.camera_alt_outlined),
                                             centerButtonIcon:
@@ -181,7 +183,7 @@ class _MainScreenState extends State<MainScreen> {
                                                 _bloc.choicePickImage(),
                                           ),
                                           child: CardWidget(
-                                            title: 'Добавить QR код',
+                                            title: S.of(context).addQR,
                                             description: '',
                                             color: const Color.fromRGBO(
                                                 242, 76, 78, 1),
@@ -200,8 +202,9 @@ class _MainScreenState extends State<MainScreen> {
                                                 await MainScreenService()
                                                     .readeIsShowQRCodeScreenService();
                                             _showActions(
-                                              topButtonText: 'Да',
-                                              centerButtonText: 'Нет',
+                                              topButtonText: S.of(context).yes,
+                                              centerButtonText:
+                                                  S.of(context).no,
                                               topButtonIcon:
                                                   _isShowQRCodeScreen == true
                                                       ? const Icon(
@@ -238,8 +241,7 @@ class _MainScreenState extends State<MainScreen> {
                                           }
                                         : () {},
                                     child: CardWidget(
-                                      title:
-                                          'Показывать при запуске приложения ',
+                                      title: S.of(context).showWhenStarted,
                                       description: '',
                                       color:
                                           const Color.fromRGBO(150, 33, 75, 1),
@@ -255,23 +257,28 @@ class _MainScreenState extends State<MainScreen> {
                                   InkWell(
                                     onTap: _url != null
                                         ? () => _showActions(
-                                              topButtonText: 'Камера',
-                                              centerButtonText: 'Галерея',
+                                              topButtonText:
+                                                  S.of(context).camera,
+                                              centerButtonText:
+                                                  S.of(context).gallery,
                                               topButtonIcon: const Icon(
                                                   Icons.camera_alt_outlined),
                                               centerButtonIcon:
                                                   const Icon(Icons.slideshow),
-                                              functionTopButton: () => Navigator
-                                                      .of(context)
-                                                  .pushNamed(
-                                                      MainNavigationRouteName
-                                                          .viewScreen),
-                                              functionCenterBottom: () =>
-                                                  _bloc.choicePickImage(),
+                                              functionTopButton: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pushNamed(
+                                                    MainNavigationRouteName
+                                                        .viewScreen);
+                                              },
+                                              functionCenterBottom: () {
+                                                Navigator.of(context).pop();
+                                                _bloc.choicePickImage();
+                                              },
                                             )
                                         : () {},
                                     child: CardWidget(
-                                      title: 'Заменить QR код',
+                                      title: S.of(context).replaceQR,
                                       description: '',
                                       color:
                                           const Color.fromRGBO(255, 199, 89, 1),
@@ -286,8 +293,10 @@ class _MainScreenState extends State<MainScreen> {
                                   InkWell(
                                     onTap: _url != null
                                         ? () => _showActions(
-                                              topButtonText: 'Удалить',
-                                              centerButtonText: 'Отмена',
+                                              topButtonText:
+                                                  S.of(context).delete,
+                                              centerButtonText:
+                                                  S.of(context).cancel,
                                               topButtonIcon:
                                                   const Icon(Icons.delete),
                                               centerButtonIcon:
@@ -302,7 +311,7 @@ class _MainScreenState extends State<MainScreen> {
                                             )
                                         : () {},
                                     child: CardWidget(
-                                      title: 'Удалить',
+                                      title: S.of(context).cancel,
                                       description: '',
                                       color:
                                           const Color.fromRGBO(79, 199, 254, 1),
@@ -335,21 +344,21 @@ class _MainScreenState extends State<MainScreen> {
       builder: (context) {
         return _isFirstExit
             ? ShowDialogWidget(
-                title: 'Добро пожаловать!',
-                description: 'Добавте свой QR код и ',
+                title: S.of(context).welcome,
+                description: S.of(context).accessYourCertificate,
                 onTabLeftButton: () async {
                   await MainScreenService().setIsFirstExitService();
                   Navigator.of(context).pop();
                 },
-                textLeftButton: 'ОК',
+                textLeftButton: S.of(context).ok,
               )
             : ShowDialogWidget(
-                title: 'Код не считан',
-                description: 'Возможно изображение не содержит QR код',
+                title: S.of(context).codeNotRead,
+                description: S.of(context).imageNotContainQR,
                 onTabLeftButton: () => _bloc.choicePickImage(),
                 onTabRightButton: () => Navigator.of(context).pop(),
-                textLeftButton: 'Повторить',
-                textRightButton: 'Отмена',
+                textLeftButton: S.of(context).repeat,
+                textRightButton: S.of(context).cancel,
               );
       },
     );

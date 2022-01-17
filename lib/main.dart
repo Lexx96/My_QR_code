@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
+import 'generated/l10n.dart';
 import 'modules/main_screen/service/main_screen_service.dart';
 
 void main() async {
@@ -18,6 +20,13 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       routes: MainNavigation().routes,
       initialRoute: initialRoute,
     );
