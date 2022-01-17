@@ -35,7 +35,7 @@ class MainScreenBloc {
   void choicePickImage() {
     MainScreenService().getImageFile().then(
       (qrCode) async {
-        if (qrCode.toString().substring(49).length >= 24) {
+        if (qrCode.toString().length > 73) {
           switch (qrCode.toString().substring(49, 73)) {
             case 'https://www.gosuslugi.ru':
               _mainScreenStreamController.sink.add(

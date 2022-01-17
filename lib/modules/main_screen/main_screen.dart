@@ -168,20 +168,24 @@ class _MainScreenState extends State<MainScreen> {
                                         )
                                       : InkWell(
                                           onTap: () => _showActions(
-                                            topButtonText: S.of(context).camera,
-                                            centerButtonText:
-                                                S.of(context).gallery,
-                                            topButtonIcon: const Icon(
-                                                Icons.camera_alt_outlined),
-                                            centerButtonIcon:
-                                                const Icon(Icons.slideshow),
-                                            functionTopButton: () =>
+                                              topButtonText:
+                                                  S.of(context).camera,
+                                              centerButtonText:
+                                                  S.of(context).gallery,
+                                              topButtonIcon: const Icon(
+                                                  Icons.camera_alt_outlined),
+                                              centerButtonIcon:
+                                                  const Icon(Icons.slideshow),
+                                              functionTopButton: () {
+                                                Navigator.of(context).pop();
                                                 Navigator.of(context).pushNamed(
                                                     MainNavigationRouteName
-                                                        .viewScreen),
-                                            functionCenterBottom: () =>
-                                                _bloc.choicePickImage(),
-                                          ),
+                                                        .viewScreen);
+                                              },
+                                              functionCenterBottom: () {
+                                                Navigator.of(context).pop();
+                                                _bloc.choicePickImage();
+                                              }),
                                           child: CardWidget(
                                             title: S.of(context).addQR,
                                             description: '',
