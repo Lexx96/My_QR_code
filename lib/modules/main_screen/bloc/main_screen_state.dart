@@ -6,6 +6,9 @@ class MainScreenState {
 
   factory MainScreenState.readURLFromGalleryState(String? url) =
       ReadURLFromGalleryState;
+
+  factory MainScreenState.isFirstExitFromSharedPreferencesState(
+      bool isFirstExit) = IsFirstExitFromSharedPreferencesState;
 }
 
 /// Состояние прочтеного URL из SharedPreferences
@@ -18,4 +21,11 @@ class ReadURLFromSharedPreferencesState extends MainScreenState {
 class ReadURLFromGalleryState extends MainScreenState {
   String? urlFromImage;
   ReadURLFromGalleryState(this.urlFromImage);
+}
+
+/// Состояние прочтеного значения для определения первого
+/// входа при запуске приложения
+class IsFirstExitFromSharedPreferencesState extends MainScreenState {
+  bool isFirstExit;
+  IsFirstExitFromSharedPreferencesState(this.isFirstExit);
 }

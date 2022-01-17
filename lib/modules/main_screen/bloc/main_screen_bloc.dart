@@ -6,7 +6,6 @@ import 'main_screen_state.dart';
 /// Класс управления состоянием модуля main_screen
 class MainScreenBloc {
   final _mainScreenStreamController = StreamController<MainScreenState>();
-
   Stream<MainScreenState> get mainScreenStreamController =>
       _mainScreenStreamController.stream;
 
@@ -53,6 +52,23 @@ class MainScreenBloc {
         } else {
           _mainScreenStreamController.sink.add(
             MainScreenState.readURLFromGalleryState(null),
+          );
+        }
+      },
+    );
+  }
+
+  /// Чтение значения для определения первого входа при запуске приложения
+  void isFirstExitFromSharedPreferences() async {
+    await MainScreenService().readeIsFirstExitService().then(
+      (_isFirstExit) {
+        if (_isFirstExit != true) {
+          _mainScreenStreamController.sink.add(
+            MainScreenState.isFirstExitFromSharedPreferencesState(true),
+          );
+        } else {
+          _mainScreenStreamController.sink.add(
+            MainScreenState.isFirstExitFromSharedPreferencesState(false),
           );
         }
       },

@@ -21,17 +21,22 @@ class _MainScreenState extends State<MainScreen> {
   late MainScreenBloc _bloc;
   late bool? _isShowQRCodeScreen = false;
   late ReadURLFromGalleryState _data;
-  late String? _url = null;
+  String? _url = null;
+  bool _isFirstExit = false;
 
   @override
   void initState() {
     super.initState();
     _bloc = MainScreenBloc();
+    _bloc.isFirstExitFromSharedPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
-    _bloc.getURLFromSharedPreferences();
+    Future.delayed(Duration.zero).whenComplete(
+      () => _bloc.getURLFromSharedPreferences(),
+    );
+
     return WillPopScope(
       onWillPop: () => exit(0),
       child: Scaffold(
@@ -41,6 +46,17 @@ class _MainScreenState extends State<MainScreen> {
             if (snapshot.data is ReadURLFromSharedPreferencesState) {
               final _data = snapshot.data as ReadURLFromSharedPreferencesState;
               _url = _data.url;
+            }
+
+            if (snapshot.data is IsFirstExitFromSharedPreferencesState) {
+              final _data =
+                  snapshot.data as IsFirstExitFromSharedPreferencesState;
+              _isFirstExit = _data.isFirstExit;
+              if (_isFirstExit) {
+                Future.delayed(Duration.zero).whenComplete(
+                  () => _showMessage(),
+                );
+              }
             }
 
             if (snapshot.data is ReadURLFromGalleryState) {
@@ -61,7 +77,9 @@ class _MainScreenState extends State<MainScreen> {
                 );
               } else if (snapshot.data is ReadURLFromGalleryState &&
                   _data.urlFromImage == null) {
-                Future.delayed(Duration.zero).whenComplete(() => showMessage());
+                Future.delayed(Duration.zero).whenComplete(
+                  () => _showMessage(),
+                );
               }
             }
 
@@ -148,7 +166,7 @@ class _MainScreenState extends State<MainScreen> {
                                           ),
                                         )
                                       : InkWell(
-                                          onTap: () => showActions(
+                                          onTap: () => _showActions(
                                             topButtonText: 'Камера',
                                             centerButtonText: 'Галерея',
                                             topButtonIcon: const Icon(
@@ -181,7 +199,7 @@ class _MainScreenState extends State<MainScreen> {
                                             _isShowQRCodeScreen =
                                                 await MainScreenService()
                                                     .readeIsShowQRCodeScreenService();
-                                            showActions(
+                                            _showActions(
                                               topButtonText: 'Да',
                                               centerButtonText: 'Нет',
                                               topButtonIcon:
@@ -236,7 +254,7 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   InkWell(
                                     onTap: _url != null
-                                        ? () => showActions(
+                                        ? () => _showActions(
                                               topButtonText: 'Камера',
                                               centerButtonText: 'Галерея',
                                               topButtonIcon: const Icon(
@@ -267,7 +285,7 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   InkWell(
                                     onTap: _url != null
-                                        ? () => showActions(
+                                        ? () => _showActions(
                                               topButtonText: 'Удалить',
                                               centerButtonText: 'Отмена',
                                               topButtonIcon:
@@ -310,34 +328,44 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  /// Показывает оповещение
-  void showMessage() {
+  /// Вывод оповещения для пользователя на экран
+  void _showMessage() {
     showDialog(
       context: context,
       builder: (context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShowDialogWidget(
-              title: 'Код не считан',
-              description: 'Возможно изображение не содержит QR код',
-              onTabLeftButton: () => _bloc.choicePickImage(),
-              onTabRightButton: () => Navigator.of(context).pop(),
-              textLeftButton: 'Повторить',
-              textRightButton: 'Отмена',
-            ),
-          ],
-        );
+        return _isFirstExit
+            ? ShowDialogWidget(
+                title: 'Добро пожаловать!',
+                description: 'Добавте свой QR код и ',
+                onTabLeftButton: () async {
+                  await MainScreenService().setIsFirstExitService();
+                  Navigator.of(context).pop();
+                },
+                textLeftButton: 'ОК',
+              )
+            : ShowDialogWidget(
+                title: 'Код не считан',
+                description: 'Возможно изображение не содержит QR код',
+                onTabLeftButton: () => _bloc.choicePickImage(),
+                onTabRightButton: () => Navigator.of(context).pop(),
+                textLeftButton: 'Повторить',
+                textRightButton: 'Отмена',
+              );
       },
     );
   }
 
   /// Показывает варианты дейсвий,
   /// принимает название верхней кнопки String [topButtonText],
-  /// название нижней кнопки String [centerButtonText],
+  /// название центральной кнопки String [centerButtonText],
+  /// название нижней кнопки String [bottomButtonText],
   /// иконку верхней кнопки IconData [topButtonIcon],
-  /// иконку нижней кнопки IconData [centerButtonText],
-  dynamic showActions({
+  /// иконку центральной кнопки IconData [centerButtonIcon],
+  /// иконку нижней кнопки IconData [bottomButtonIcon],
+  /// функцию верхней кнопки Function [functionTopButton],
+  /// функцию центральной кнопки Function [functionCenterBottom],
+  /// функцию нижней кнопки Function [functionBottomBottom]
+  dynamic _showActions({
     required String topButtonText,
     String? centerButtonText,
     String? bottomButtonText,
@@ -373,6 +401,20 @@ class _MainScreenState extends State<MainScreen> {
                       children: [
                         Text(centerButtonText),
                         centerButtonIcon,
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            bottomButtonText != null &&
+                    bottomButtonIcon != null &&
+                    functionBottomBottom != null
+                ? CupertinoActionSheetAction(
+                    onPressed: () => functionBottomBottom(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(bottomButtonText),
+                        bottomButtonIcon,
                       ],
                     ),
                   )

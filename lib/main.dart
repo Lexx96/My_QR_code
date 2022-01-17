@@ -26,9 +26,9 @@ class Home extends StatelessWidget {
 
 ///Определение страницы загрузки при запуске приложения
 Future<String> isFirstScreen() async {
-  final isFirstScreen =
+  final _isFirstScreen =
       await MainScreenService().readeIsShowQRCodeScreenService();
-  if (isFirstScreen != null && isFirstScreen == true) {
+  if (_isFirstScreen != null && _isFirstScreen == true) {
     return MainNavigation().initialRouteShowQRCode;
   } else {
     return MainNavigation().initialRouteMain;
