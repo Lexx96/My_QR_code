@@ -41,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "great": MessageLookupByLibrary.simpleMessage("Great!"),
         "hello": MessageLookupByLibrary.simpleMessage("Hello!"),
         "imageNotContainQR": MessageLookupByLibrary.simpleMessage(
-            "Perhaps the image does not contain a QR code"),
+            "Perhaps the image does not contain a QR code about the vaccination from COVID-19"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "ok": MessageLookupByLibrary.simpleMessage("ОК"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),

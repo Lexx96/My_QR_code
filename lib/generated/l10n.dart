@@ -210,10 +210,10 @@ class S {
     );
   }
 
-  /// `Perhaps the image does not contain a QR code`
+  /// `Perhaps the image does not contain a QR code about the vaccination from COVID-19`
   String get imageNotContainQR {
     return Intl.message(
-      'Perhaps the image does not contain a QR code',
+      'Perhaps the image does not contain a QR code about the vaccination from COVID-19',
       name: 'imageNotContainQR',
       desc: '',
       args: [],

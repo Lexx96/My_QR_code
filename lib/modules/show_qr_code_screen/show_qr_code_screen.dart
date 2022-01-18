@@ -78,16 +78,20 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                           children: [
                             SizedBox(
                               height: MediaQuery.of(context).size.height,
-                              child: WebView(
-                                initialUrl:
-                                    widget.url ?? _urlFromSharedPreferences,
-                                onWebViewCreated:
-                                    (WebViewController webViewController) {
-                                  _controller.complete(webViewController);
-                                },
-                                javascriptMode: JavascriptMode.unrestricted,
-                                onPageFinished: (_) => _bloc.showQRCode(),
-                              ),
+                              child: widget.url != null ||
+                                      _urlFromSharedPreferences != ''
+                                  ? WebView(
+                                      initialUrl: widget.url ??
+                                          _urlFromSharedPreferences,
+                                      onWebViewCreated: (WebViewController
+                                          webViewController) {
+                                        _controller.complete(webViewController);
+                                      },
+                                      javascriptMode:
+                                          JavascriptMode.unrestricted,
+                                      onPageFinished: (_) => _bloc.showQRCode(),
+                                    )
+                                  : const SizedBox.shrink(),
                             ),
                           ],
                         ),

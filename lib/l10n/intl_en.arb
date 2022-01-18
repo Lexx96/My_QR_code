@@ -15,7 +15,7 @@
   "welcome" : "Welcome!",
   "accessYourCertificate" : "Add your QR code and get quick and convenient access to your COVID-19 vaccination certificate",
   "ok" : "ОК",
-  "imageNotContainQR" : "Perhaps the image does not contain a QR code",
+  "imageNotContainQR" : "Perhaps the image does not contain a QR code about the vaccination from COVID-19",
   "repeat" : "Repeat",
   "QRCodeIsNotCertificate" : "The QR code is not a certificate of vaccination",
   "scanQR" : "Scan the QR code",

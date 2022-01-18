@@ -39,10 +39,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "exit": MessageLookupByLibrary.simpleMessage("Выйти"),
         "gallery": MessageLookupByLibrary.simpleMessage("Галерея"),
         "gladSeeYou": MessageLookupByLibrary.simpleMessage("Рады тебя видеть"),
-        "great": MessageLookupByLibrary.simpleMessage("Отлично"),
+        "great": MessageLookupByLibrary.simpleMessage("Отлично!"),
         "hello": MessageLookupByLibrary.simpleMessage("Привет!"),
         "imageNotContainQR": MessageLookupByLibrary.simpleMessage(
-            "Возможно изображение не содержит QR код"),
+            "Возможно изображение не содержит QR код о прохождении вакцинации от COVID-19"),
         "no": MessageLookupByLibrary.simpleMessage("Да"),
         "ok": MessageLookupByLibrary.simpleMessage("ОК"),
         "repeat": MessageLookupByLibrary.simpleMessage("Повторить"),

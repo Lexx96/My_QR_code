@@ -206,9 +206,9 @@ class _MainScreenState extends State<MainScreen> {
                                                 await MainScreenService()
                                                     .readeIsShowQRCodeScreenService();
                                             _showActions(
-                                              topButtonText: S.of(context).yes,
+                                              topButtonText: S.of(context).no,
                                               centerButtonText:
-                                                  S.of(context).no,
+                                                  S.of(context).yes,
                                               topButtonIcon:
                                                   _isShowQRCodeScreen == true
                                                       ? const Icon(

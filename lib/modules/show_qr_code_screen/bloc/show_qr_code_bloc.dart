@@ -21,11 +21,15 @@ class ShowCodeBloc {
   /// Чтение URL из setURLSharedPreferences
   void readURLSharedPreferences() async {
     await ShowCodeService().readeURLService().then(
-      (url) {
-        if (url != null) {
-          _showCodeStreamController.sink.add(ShowCodeState.readURLState(url));
+      (_url) {
+        if (_url != null) {
+          _showCodeStreamController.sink.add(
+            ShowCodeState.readURLState(_url),
+          );
         } else {
-          _showCodeStreamController.sink.add(ShowCodeState.readURLState(null));
+          _showCodeStreamController.sink.add(
+            ShowCodeState.readURLState(null),
+          );
         }
       },
     );
@@ -33,7 +37,9 @@ class ShowCodeBloc {
 
   /// Состояние для показа виджета QR кода, после загрузки старницы WebView
   void showQRCode() async {
-    await Future.delayed(const Duration(milliseconds: 200)).whenComplete(
+    await Future.delayed(
+      const Duration(milliseconds: 200),
+    ).whenComplete(
       () {
         _showCodeStreamController.sink.add(ShowCodeState.showQRCodeState());
       },
