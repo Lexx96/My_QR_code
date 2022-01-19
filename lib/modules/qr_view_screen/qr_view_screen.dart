@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_coder/generated/l10n.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
+import 'package:qr_coder/utils/themes/my_light_theme.dart';
 import 'bloc/qr_view_screen_bloc.dart';
 import 'bloc/qr_view_screen_state.dart';
+import 'widgets/elevated_button_widget.dart';
 
 /// Экран сканирования QR - кода
 class QRViewScreen extends StatefulWidget {
@@ -107,14 +109,10 @@ class _QRViewScreenState extends State<QRViewScreen> {
                               children: <Widget>[
                                 Container(
                                   margin: const EdgeInsets.only(right: 10.0),
-                                  child: ElevatedButton(
+                                  child: ElevatedButtonWidget(
+                                    backgroundColor:
+                                        ColorsLightTheme.cardColor1,
                                     onPressed: () => _bloc.onToggleFlash(),
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        const Color.fromRGBO(242, 76, 78, 1),
-                                      ),
-                                    ),
                                     child: _flashStatus == false
                                         ? const Icon(
                                             Icons.wb_sunny_outlined,
@@ -133,7 +131,7 @@ class _QRViewScreenState extends State<QRViewScreen> {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                        const Color.fromRGBO(255, 199, 89, 1),
+                                        ColorsLightTheme.cardColor3,
                                       ),
                                     ),
                                     child: FutureBuilder(
@@ -155,27 +153,19 @@ class _QRViewScreenState extends State<QRViewScreen> {
                               children: <Widget>[
                                 Container(
                                   margin: const EdgeInsets.only(right: 10.0),
-                                  child: ElevatedButton(
+                                  child: ElevatedButtonWidget(
+                                    backgroundColor:
+                                        ColorsLightTheme.cardColor2,
                                     onPressed: () => _bloc.pauseCamera(),
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        const Color.fromRGBO(150, 33, 75, 1),
-                                      ),
-                                    ),
                                     child: const Icon(Icons.pause),
                                   ),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(left: 10.0),
-                                  child: ElevatedButton(
+                                  child: ElevatedButtonWidget(
+                                    backgroundColor:
+                                        ColorsLightTheme.cardColor4,
                                     onPressed: () => _bloc.resumeCamera(),
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        const Color.fromRGBO(79, 199, 254, 1),
-                                      ),
-                                    ),
                                     child:
                                         const Icon(Icons.play_arrow_outlined),
                                   ),

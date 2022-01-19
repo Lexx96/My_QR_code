@@ -1,6 +1,9 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
+import 'package:qr_coder/utils/themes/my_dark_theme.dart';
+import 'package:qr_coder/utils/themes/my_light_theme.dart';
 import 'generated/l10n.dart';
 import 'modules/main_screen/service/main_screen_service.dart';
 
@@ -19,16 +22,26 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      routes: MainNavigation().routes,
-      initialRoute: initialRoute,
+    return AdaptiveTheme(
+      light: myLightTheme,
+      dark: myDarkTheme,
+      initial: AdaptiveThemeMode.light,
+      builder: (ThemeData light, ThemeData dark) => MaterialApp(
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        localeResolutionCallback: (locales, supportedLocales) {
+          if (locales == null) {
+            return supportedLocales.first;
+          }
+        },
+        routes: MainNavigation().routes,
+        initialRoute: initialRoute,
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:qr_coder/modules/main_screen/widgets/card_widget.dart';
 import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
 import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
+import 'package:qr_coder/utils/themes/my_light_theme.dart';
 import 'bloc/main_screen_bloc.dart';
 import 'bloc/main_screen_state.dart';
 import 'service/main_screen_service.dart';
@@ -34,308 +35,301 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero).whenComplete(
-      () => _bloc.getURLFromSharedPreferences(),
-    );
+    _bloc.getURLFromSharedPreferences();
 
     return WillPopScope(
       onWillPop: () => exit(0),
       child: Scaffold(
-        body: StreamBuilder(
-          stream: _bloc.mainScreenStreamController,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data is ReadURLFromSharedPreferencesState) {
-              final _data = snapshot.data as ReadURLFromSharedPreferencesState;
-              _url = _data.url;
-            }
+        backgroundColor: ColorsLightTheme.scaffoldBackgroundColor,
+        body: Stack(
+          children: [
+            StreamBuilder(
+              stream: _bloc.mainScreenStreamController,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data is ReadURLFromSharedPreferencesState) {
+                  final _data =
+                      snapshot.data as ReadURLFromSharedPreferencesState;
+                  _url = _data.url;
+                }
 
-            if (snapshot.data is IsFirstExitFromSharedPreferencesState) {
-              final _data =
-                  snapshot.data as IsFirstExitFromSharedPreferencesState;
-              _isFirstExit = _data.isFirstExit;
-              if (_isFirstExit) {
-                Future.delayed(Duration.zero).whenComplete(
-                  () => _showMessage(),
-                );
-              }
-            }
-
-            if (snapshot.data is ReadURLFromGalleryState) {
-              _data = snapshot.data as ReadURLFromGalleryState;
-              if (_data.urlFromImage != null) {
-                Future.delayed(
-                  Duration.zero,
-                  () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => ShowQRCodeScreen(
-                          url: _data.urlFromImage,
-                          isShowButtonExit: false,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              } else if (snapshot.data is ReadURLFromGalleryState &&
-                  _data.urlFromImage == null) {
-                Future.delayed(Duration.zero).whenComplete(
-                  () => _showMessage(),
-                );
-              }
-            }
-
-            return ListView(
-              children: [
-                Container(
-                  color: const Color.fromRGBO(210, 226, 239, 1.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 16.0, top: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Icon(
-                              Icons.supervised_user_circle,
-                              size: 28.0,
+                if (snapshot.data is ReadURLFromGalleryState) {
+                  _data = snapshot.data as ReadURLFromGalleryState;
+                  if (_data.urlFromImage != null) {
+                    Future.delayed(
+                      Duration.zero,
+                      () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ShowQRCodeScreen(
+                              url: _data.urlFromImage,
+                              isShowButtonExit: false,
                             ),
-                            Icon(
-                              Icons.settings,
-                              size: 28.0,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              S.of(context).hello,
-                              style: const TextStyle(
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(71, 84, 108, 1),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          _url != null
-                              ? S.of(context).gladSeeYou
-                              : S.of(context).addYourQR,
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(171, 175, 178, 1),
                           ),
-                          maxLines: 1,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        );
+                      },
+                    );
+                  } else if (snapshot.data is ReadURLFromGalleryState &&
+                      _data.urlFromImage == null) {
+                    Future.delayed(Duration.zero).whenComplete(
+                      () => _showMessage(),
+                    );
+                  }
+                }
+
+                return ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16.0, right: 16.0, top: 35.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Column(
-                                children: [
-                                  _url != null
-                                      ? InkWell(
-                                          splashColor: Colors.red,
-                                          onTap: () =>
-                                              Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (_) => ShowQRCodeScreen(
-                                                url: _url,
-                                                isShowButtonExit: true,
-                                              ),
-                                            ),
-                                          ),
-                                          child: CardWidget(
-                                            title: S.of(context).showQR,
-                                            description: '',
-                                            color: const Color.fromRGBO(
-                                                242, 76, 78, 1),
-                                            height: 0.35,
-                                            context: context,
-                                            icon: Icons.qr_code,
-                                          ),
-                                        )
-                                      : InkWell(
-                                          onTap: () => _showActions(
-                                              topButtonText:
-                                                  S.of(context).camera,
-                                              centerButtonText:
-                                                  S.of(context).gallery,
-                                              topButtonIcon: const Icon(
-                                                  Icons.camera_alt_outlined),
-                                              centerButtonIcon:
-                                                  const Icon(Icons.slideshow),
-                                              functionTopButton: () {
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context).pushNamed(
-                                                    MainNavigationRouteName
-                                                        .viewScreen);
-                                              },
-                                              functionCenterBottom: () {
-                                                Navigator.of(context).pop();
-                                                _bloc.choicePickImage();
-                                              }),
-                                          child: CardWidget(
-                                            title: S.of(context).addQR,
-                                            description: '',
-                                            color: const Color.fromRGBO(
-                                                242, 76, 78, 1),
-                                            height: 0.35,
-                                            context: context,
-                                            icon: Icons.add,
-                                          ),
-                                        ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  InkWell(
-                                    onTap: _url != null
-                                        ? () async {
-                                            _isShowQRCodeScreen =
-                                                await MainScreenService()
-                                                    .readeIsShowQRCodeScreenService();
-                                            _showActions(
-                                              topButtonText: S.of(context).no,
-                                              centerButtonText:
-                                                  S.of(context).yes,
-                                              topButtonIcon:
-                                                  _isShowQRCodeScreen == true
-                                                      ? const Icon(
-                                                          Icons
-                                                              .visibility_rounded,
-                                                          color: Colors.green,
-                                                        )
-                                                      : const Icon(
-                                                          Icons
-                                                              .visibility_rounded,
-                                                        ),
-                                              centerButtonIcon:
-                                                  _isShowQRCodeScreen == false
-                                                      ? const Icon(
-                                                          Icons.visibility_off,
-                                                          color: Colors.green,
-                                                        )
-                                                      : const Icon(
-                                                          Icons.visibility_off,
-                                                        ),
-                                              functionTopButton: () async {
-                                                await MainScreenService()
-                                                    .setIsShowQRCodeScreenService(
-                                                        true);
-                                                Navigator.of(context).pop();
-                                              },
-                                              functionCenterBottom: () async {
-                                                await MainScreenService()
-                                                    .setIsShowQRCodeScreenService(
-                                                        false);
-                                                Navigator.of(context).pop();
-                                              },
-                                            );
-                                          }
-                                        : () {},
-                                    child: CardWidget(
-                                      title: S.of(context).showWhenStarted,
-                                      description: '',
-                                      color:
-                                          const Color.fromRGBO(150, 33, 75, 1),
-                                      height: 0.4,
-                                      context: context,
-                                      icon: Icons.slideshow,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  InkWell(
-                                    onTap: _url != null
-                                        ? () => _showActions(
-                                              topButtonText:
-                                                  S.of(context).camera,
-                                              centerButtonText:
-                                                  S.of(context).gallery,
-                                              topButtonIcon: const Icon(
-                                                  Icons.camera_alt_outlined),
-                                              centerButtonIcon:
-                                                  const Icon(Icons.slideshow),
-                                              functionTopButton: () {
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context).pushNamed(
-                                                    MainNavigationRouteName
-                                                        .viewScreen);
-                                              },
-                                              functionCenterBottom: () {
-                                                Navigator.of(context).pop();
-                                                _bloc.choicePickImage();
-                                              },
-                                            )
-                                        : () {},
-                                    child: CardWidget(
-                                      title: S.of(context).replaceQR,
-                                      description: '',
-                                      color:
-                                          const Color.fromRGBO(255, 199, 89, 1),
-                                      height: 0.4,
-                                      context: context,
-                                      icon: Icons.wifi_protected_setup,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  InkWell(
-                                    onTap: _url != null
-                                        ? () => _showActions(
-                                              topButtonText:
-                                                  S.of(context).delete,
-                                              centerButtonText:
-                                                  S.of(context).cancel,
-                                              topButtonIcon:
-                                                  const Icon(Icons.delete),
-                                              centerButtonIcon:
-                                                  const Icon(Icons.cancel),
-                                              functionTopButton: () {
-                                                _bloc
-                                                    .deleteURLFromSharedPreferences();
-                                                Navigator.of(context).pop();
-                                              },
-                                              functionCenterBottom: () =>
-                                                  Navigator.of(context).pop(),
-                                            )
-                                        : () {},
-                                    child: CardWidget(
-                                      title: S.of(context).delete,
-                                      description: '',
-                                      color:
-                                          const Color.fromRGBO(79, 199, 254, 1),
-                                      height: 0.35,
-                                      context: context,
-                                      icon: Icons.delete,
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                S.of(context).hello,
+                                style: const TextStyle(
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorsLightTheme.mainTextColor,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            _url != null
+                                ? S.of(context).gladSeeYou
+                                : S.of(context).addYourQR,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsLightTheme.textColor,
+                            ),
+                            maxLines: 1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    _url != null
+                                        ? InkWell(
+                                            onTap: () =>
+                                                Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    ShowQRCodeScreen(
+                                                  url: _url,
+                                                  isShowButtonExit: true,
+                                                ),
+                                              ),
+                                            ),
+                                            child: CardWidget(
+                                              title: S.of(context).showQR,
+                                              description: '',
+                                              color:
+                                                  ColorsLightTheme.cardColor1,
+                                              height: 0.35,
+                                              context: context,
+                                              icon: Icons.qr_code,
+                                            ),
+                                          )
+                                        : InkWell(
+                                            onTap: () => _showActions(
+                                              topButtonText:
+                                                  S.of(context).camera,
+                                              centerButtonText:
+                                                  S.of(context).gallery,
+                                              topButtonIcon: const Icon(
+                                                  Icons.camera_alt_outlined),
+                                              centerButtonIcon:
+                                                  const Icon(Icons.slideshow),
+                                              functionTopButton: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pushNamed(
+                                                    MainNavigationRouteName
+                                                        .viewScreen);
+                                              },
+                                              functionCenterBottom: () {
+                                                Navigator.of(context).pop();
+                                                _bloc.choicePickImage();
+                                              },
+                                            ),
+                                            child: CardWidget(
+                                              title: S.of(context).addQR,
+                                              description: '',
+                                              color:
+                                                  ColorsLightTheme.cardColor1,
+                                              height: 0.35,
+                                              context: context,
+                                              icon: Icons.add,
+                                            ),
+                                          ),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    InkWell(
+                                      onTap: _url != null
+                                          ? () async {
+                                              _isShowQRCodeScreen =
+                                                  await MainScreenService()
+                                                      .readeIsShowQRCodeScreenService();
+                                              _showActions(
+                                                topButtonText: S.of(context).no,
+                                                centerButtonText:
+                                                    S.of(context).yes,
+                                                topButtonIcon:
+                                                    _isShowQRCodeScreen == true
+                                                        ? const Icon(
+                                                            Icons
+                                                                .visibility_rounded,
+                                                            color: Colors.green,
+                                                          )
+                                                        : const Icon(
+                                                            Icons
+                                                                .visibility_rounded,
+                                                          ),
+                                                centerButtonIcon:
+                                                    _isShowQRCodeScreen == false
+                                                        ? const Icon(
+                                                            Icons
+                                                                .visibility_off,
+                                                            color: Colors.green,
+                                                          )
+                                                        : const Icon(
+                                                            Icons
+                                                                .visibility_off,
+                                                          ),
+                                                functionTopButton: () async {
+                                                  await MainScreenService()
+                                                      .setIsShowQRCodeScreenService(
+                                                          true);
+                                                  Navigator.of(context).pop();
+                                                },
+                                                functionCenterBottom: () async {
+                                                  await MainScreenService()
+                                                      .setIsShowQRCodeScreenService(
+                                                          false);
+                                                  Navigator.of(context).pop();
+                                                },
+                                              );
+                                            }
+                                          : () {},
+                                      child: CardWidget(
+                                        title: S.of(context).showWhenStarted,
+                                        description: '',
+                                        color: ColorsLightTheme.cardColor2,
+                                        height: 0.4,
+                                        context: context,
+                                        icon: Icons.slideshow,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: _url != null
+                                          ? () => _showActions(
+                                                topButtonText:
+                                                    S.of(context).camera,
+                                                centerButtonText:
+                                                    S.of(context).gallery,
+                                                topButtonIcon: const Icon(
+                                                    Icons.camera_alt_outlined),
+                                                centerButtonIcon:
+                                                    const Icon(Icons.slideshow),
+                                                functionTopButton: () {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                          MainNavigationRouteName
+                                                              .viewScreen);
+                                                },
+                                                functionCenterBottom: () {
+                                                  Navigator.of(context).pop();
+                                                  _bloc.choicePickImage();
+                                                },
+                                              )
+                                          : () {},
+                                      child: CardWidget(
+                                        title: S.of(context).replaceQR,
+                                        description: '',
+                                        color: ColorsLightTheme.cardColor3,
+                                        height: 0.4,
+                                        context: context,
+                                        icon: Icons.wifi_protected_setup,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    InkWell(
+                                      onTap: _url != null
+                                          ? () => _showActions(
+                                                topButtonText:
+                                                    S.of(context).delete,
+                                                centerButtonText:
+                                                    S.of(context).cancel,
+                                                topButtonIcon:
+                                                    const Icon(Icons.delete),
+                                                centerButtonIcon:
+                                                    const Icon(Icons.cancel),
+                                                functionTopButton: () {
+                                                  _bloc
+                                                      .deleteURLFromSharedPreferences();
+                                                  Navigator.of(context).pop();
+                                                },
+                                                functionCenterBottom: () =>
+                                                    Navigator.of(context).pop(),
+                                              )
+                                          : () {},
+                                      child: CardWidget(
+                                        title: S.of(context).delete,
+                                        description: '',
+                                        color: ColorsLightTheme.cardColor4,
+                                        height: 0.35,
+                                        context: context,
+                                        icon: Icons.delete,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            );
-          },
+                  ],
+                );
+              },
+            ),
+            StreamBuilder(
+              stream: _bloc.mainScreenIsFirstExitStreamController,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data is IsFirstExitFromSharedPreferencesState) {
+                  final _data =
+                      snapshot.data as IsFirstExitFromSharedPreferencesState;
+                  _isFirstExit = _data.isFirstExit;
+
+                  if (_isFirstExit) {
+                    Future.delayed(Duration.zero).whenComplete(
+                      () => _showMessage(),
+                    );
+                  }
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
         ),
       ),
     );

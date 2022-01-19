@@ -9,6 +9,11 @@ class MainScreenBloc {
   Stream<MainScreenState> get mainScreenStreamController =>
       _mainScreenStreamController.stream;
 
+  final _mainScreenIsFirstExitStreamController =
+      StreamController<MainScreenState>();
+  Stream<MainScreenState> get mainScreenIsFirstExitStreamController =>
+      _mainScreenIsFirstExitStreamController.stream;
+
   /// Проверка наличия и получение URL из SharedPreferences
   void getURLFromSharedPreferences() async {
     await ShowCodeService().readeURLService().then(
@@ -63,11 +68,11 @@ class MainScreenBloc {
     await MainScreenService().readeIsFirstExitService().then(
       (_isFirstExit) {
         if (_isFirstExit != true) {
-          _mainScreenStreamController.sink.add(
+          _mainScreenIsFirstExitStreamController.sink.add(
             MainScreenState.isFirstExitFromSharedPreferencesState(true),
           );
         } else {
-          _mainScreenStreamController.sink.add(
+          _mainScreenIsFirstExitStreamController.sink.add(
             MainScreenState.isFirstExitFromSharedPreferencesState(false),
           );
         }

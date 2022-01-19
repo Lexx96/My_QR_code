@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_coder/generated/l10n.dart';
 import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
+import 'package:qr_coder/modules/qr_view_screen/widgets/elevated_button_widget.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
+import 'package:qr_coder/utils/themes/my_light_theme.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'bloc/show_qr_code_bloc.dart';
@@ -155,7 +157,8 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Platform.isAndroid
-                          ? TextButton(
+                          ? ElevatedButtonWidget(
+                              backgroundColor: ColorsLightTheme.cardColor2,
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
@@ -170,7 +173,8 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                                       (route) => false),
                             ),
                       Platform.isAndroid
-                          ? TextButton(
+                          ? ElevatedButtonWidget(
+                              backgroundColor: ColorsLightTheme.cardColor3,
                               onPressed: () => _bloc.setURLSharedPreferences(
                                   widget.url as String),
                               child: Text(S.of(context).save),
@@ -186,7 +190,8 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Platform.isAndroid
-                          ? TextButton(
+                          ? ElevatedButtonWidget(
+                              backgroundColor: ColorsLightTheme.cardColor2,
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
@@ -205,7 +210,8 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                               ),
                             ),
                       Platform.isAndroid
-                          ? TextButton(
+                          ? ElevatedButtonWidget(
+                              backgroundColor: ColorsLightTheme.cardColor3,
                               onPressed: () => exit(0),
                               child: Text(
                                 S.of(context).exit,
