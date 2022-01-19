@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_coder/generated/l10n.dart';
 import 'package:qr_coder/modules/main_screen/widgets/show_dialog_widget.dart';
-import 'package:qr_coder/modules/qr_view_screen/widgets/elevated_button_widget.dart';
+import 'package:qr_coder/modules/main_screen/widgets/elevated_button_widget.dart';
 import 'package:qr_coder/utils/main_navigation/main_navigation.dart';
 import 'package:qr_coder/utils/themes/my_light_theme.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -82,16 +82,20 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                               height: MediaQuery.of(context).size.height,
                               child: widget.url != null ||
                                       _urlFromSharedPreferences != ''
-                                  ? WebView(
-                                      initialUrl: widget.url ??
-                                          _urlFromSharedPreferences,
-                                      onWebViewCreated: (WebViewController
-                                          webViewController) {
-                                        _controller.complete(webViewController);
-                                      },
-                                      javascriptMode:
-                                          JavascriptMode.unrestricted,
-                                      onPageFinished: (_) => _bloc.showQRCode(),
+                                  ? AbsorbPointer(
+                                      child: WebView(
+                                        initialUrl: widget.url ??
+                                            _urlFromSharedPreferences,
+                                        onWebViewCreated: (WebViewController
+                                            webViewController) {
+                                          _controller
+                                              .complete(webViewController);
+                                        },
+                                        javascriptMode:
+                                            JavascriptMode.unrestricted,
+                                        onPageFinished: (_) =>
+                                            _bloc.showQRCode(),
+                                      ),
                                     )
                                   : const SizedBox.shrink(),
                             ),
@@ -158,15 +162,15 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                     children: [
                       Platform.isAndroid
                           ? ElevatedButtonWidget(
-                              backgroundColor: ColorsLightTheme.cardColor2,
+                              backgroundColor: ColorsLightTheme.cardColor4,
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
                                       (route) => false),
-                              child: Text(S.of(context).cancel),
+                              child: Text(S.of(context).cancelBig),
                             )
                           : CupertinoButton(
-                              child: Text(S.of(context).cancel),
+                              child: Text(S.of(context).cancelBig),
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
@@ -174,7 +178,7 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                             ),
                       Platform.isAndroid
                           ? ElevatedButtonWidget(
-                              backgroundColor: ColorsLightTheme.cardColor3,
+                              backgroundColor: ColorsLightTheme.cardColor1,
                               onPressed: () => _bloc.setURLSharedPreferences(
                                   widget.url as String),
                               child: Text(S.of(context).save),
@@ -191,7 +195,7 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                     children: [
                       Platform.isAndroid
                           ? ElevatedButtonWidget(
-                              backgroundColor: ColorsLightTheme.cardColor2,
+                              backgroundColor: ColorsLightTheme.cardColor4,
                               onPressed: () => Navigator.of(context)
                                   .pushNamedAndRemoveUntil(
                                       MainNavigationRouteName.mainScreen,
@@ -211,7 +215,7 @@ class _ShowQRCodeScreenState extends State<ShowQRCodeScreen> {
                             ),
                       Platform.isAndroid
                           ? ElevatedButtonWidget(
-                              backgroundColor: ColorsLightTheme.cardColor3,
+                              backgroundColor: ColorsLightTheme.cardColor1,
                               onPressed: () => exit(0),
                               child: Text(
                                 S.of(context).exit,

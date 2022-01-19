@@ -6,7 +6,7 @@ import 'package:qr_coder/modules/show_qr_code_screen/show_qr_code_screen.dart';
 import 'package:qr_coder/utils/themes/my_light_theme.dart';
 import 'bloc/qr_view_screen_bloc.dart';
 import 'bloc/qr_view_screen_state.dart';
-import 'widgets/elevated_button_widget.dart';
+import '../main_screen/widgets/elevated_button_widget.dart';
 
 /// Экран сканирования QR - кода
 class QRViewScreen extends StatefulWidget {

@@ -23,6 +23,6 @@ class ShowCodeRepository {
   /// Удаление ссылки на QR код
   Future<String?> deleteURL() async {
     final storage = await _storage;
-    storage.clear();
+    storage.remove(SharedPreferencesKeys._url);
   }
 }

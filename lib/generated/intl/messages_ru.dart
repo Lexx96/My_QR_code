@@ -33,17 +33,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Добавьте свой QR код"),
         "camera": MessageLookupByLibrary.simpleMessage("Камера"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
+        "cancelBig": MessageLookupByLibrary.simpleMessage("     Отмена    "),
         "codeNotRead":
             MessageLookupByLibrary.simpleMessage("Код не был прочитан"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
-        "exit": MessageLookupByLibrary.simpleMessage("Выйти"),
+        "exit": MessageLookupByLibrary.simpleMessage(
+            "             Выйти            "),
         "gallery": MessageLookupByLibrary.simpleMessage("Галерея"),
         "gladSeeYou": MessageLookupByLibrary.simpleMessage("Рады тебя видеть"),
         "great": MessageLookupByLibrary.simpleMessage("Отлично!"),
         "hello": MessageLookupByLibrary.simpleMessage("Привет!"),
         "imageNotContainQR": MessageLookupByLibrary.simpleMessage(
             "Возможно изображение не содержит QR код о прохождении вакцинации от COVID-19"),
-        "no": MessageLookupByLibrary.simpleMessage("Да"),
+        "no": MessageLookupByLibrary.simpleMessage("Нет"),
         "ok": MessageLookupByLibrary.simpleMessage("ОК"),
         "repeat": MessageLookupByLibrary.simpleMessage("Повторить"),
         "replaceQR": MessageLookupByLibrary.simpleMessage("Заменить QR код"),
@@ -55,6 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "toMainScreen":
             MessageLookupByLibrary.simpleMessage("На главный экран"),
         "welcome": MessageLookupByLibrary.simpleMessage("Добро пожаловать!"),
-        "yes": MessageLookupByLibrary.simpleMessage("Нет")
+        "yes": MessageLookupByLibrary.simpleMessage("Да")
       };
 }

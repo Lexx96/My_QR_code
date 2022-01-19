@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_coder/utils/themes/my_light_theme.dart';
 
 /// Виджет вывода оповещения
 class ShowDialogWidget extends StatelessWidget {
@@ -79,17 +80,27 @@ class ShowDialogWidget extends StatelessWidget {
                             : MainAxisAlignment.center,
                     children: [
                       textLeftButton != null && onTabLeftButton != null
-                          ? TextButton(
+                          ? ElevatedButton(
                               onPressed: onTabLeftButton != null
                                   ? () => onTabLeftButton!()
                                   : null,
                               child: Text(textLeftButton!),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  ColorsLightTheme.cardColor3,
+                                ),
+                              ),
                             )
                           : const SizedBox.shrink(),
                       textRightButton != null && onTabRightButton != null
                           ? TextButton(
                               onPressed: () => onTabRightButton!(),
                               child: Text(textRightButton!),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  ColorsLightTheme.cardColor4,
+                                ),
+                              ),
                             )
                           : const SizedBox.shrink(),
                     ],

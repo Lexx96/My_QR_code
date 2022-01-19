@@ -171,6 +171,16 @@ class S {
   }
 
   /// `Cancel`
+  String get cancelBig {
+    return Intl.message(
+      'Cancel',
+      name: 'cancelBig',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
   String get cancel {
     return Intl.message(
       'Cancel',
@@ -270,10 +280,10 @@ class S {
     );
   }
 
-  /// `Save`
+  /// `   Save  `
   String get save {
     return Intl.message(
-      'Save',
+      '   Save  ',
       name: 'save',
       desc: '',
       args: [],
@@ -300,10 +310,10 @@ class S {
     );
   }
 
-  /// `Exit`
+  /// `                Exit                 `
   String get exit {
     return Intl.message(
-      'Exit',
+      '                Exit                 ',
       name: 'exit',
       desc: '',
       args: [],

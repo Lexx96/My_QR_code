@@ -182,9 +182,10 @@ class _MainScreenState extends State<MainScreen> {
                                                   await MainScreenService()
                                                       .readeIsShowQRCodeScreenService();
                                               _showActions(
-                                                topButtonText: S.of(context).no,
-                                                centerButtonText:
+                                                topButtonText:
                                                     S.of(context).yes,
+                                                centerButtonText:
+                                                    S.of(context).no,
                                                 topButtonIcon:
                                                     _isShowQRCodeScreen == true
                                                         ? const Icon(
@@ -319,7 +320,6 @@ class _MainScreenState extends State<MainScreen> {
                   final _data =
                       snapshot.data as IsFirstExitFromSharedPreferencesState;
                   _isFirstExit = _data.isFirstExit;
-
                   if (_isFirstExit) {
                     Future.delayed(Duration.zero).whenComplete(
                       () => _showMessage(),
@@ -345,18 +345,21 @@ class _MainScreenState extends State<MainScreen> {
                 title: S.of(context).welcome,
                 description: S.of(context).accessYourCertificate,
                 onTabLeftButton: () async {
-                  await MainScreenService().setIsFirstExitService();
                   Navigator.of(context).pop();
+                  await MainScreenService().setIsFirstExitService();
                 },
                 textLeftButton: S.of(context).ok,
               )
             : ShowDialogWidget(
                 title: S.of(context).codeNotRead,
                 description: S.of(context).imageNotContainQR,
-                onTabLeftButton: () => _bloc.choicePickImage(),
+                onTabLeftButton: () {
+                  Navigator.of(context).pop();
+                  _bloc.choicePickImage();
+                },
                 onTabRightButton: () => Navigator.of(context).pop(),
                 textLeftButton: S.of(context).repeat,
-                textRightButton: S.of(context).cancel,
+                textRightButton: S.of(context).cancelBig,
               );
       },
     );

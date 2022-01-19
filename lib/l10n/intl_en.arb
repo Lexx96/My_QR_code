@@ -11,6 +11,7 @@
   "showWhenStarted" : "Show when the application is launched",
   "replaceQR" : "Replace QR Code",
   "delete" : "Delete",
+  "cancelBig" : "Cancel",
   "cancel" : "Cancel",
   "welcome" : "Welcome!",
   "accessYourCertificate" : "Add your QR code and get quick and convenient access to your COVID-19 vaccination certificate",
@@ -21,8 +22,8 @@
   "scanQR" : "Scan the QR code",
   "codeNotRead" : "The code has not been read",
   "QRCodeIsSaved" : "Your QR code is saved",
-  "save" : "Save",
+  "save" : "   Save  ",
   "toMainScreen" : "To the main screen",
   "great" : "Great!",
-  "exit" : "Exit"
+  "exit" : "                Exit                 "
 }

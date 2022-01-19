@@ -32,10 +32,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "addYourQR": MessageLookupByLibrary.simpleMessage("Add your QR code"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancelBig": MessageLookupByLibrary.simpleMessage("Cancel"),
         "codeNotRead":
             MessageLookupByLibrary.simpleMessage("The code has not been read"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-        "exit": MessageLookupByLibrary.simpleMessage("Exit"),
+        "exit": MessageLookupByLibrary.simpleMessage(
+            "                Exit                 "),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
         "gladSeeYou": MessageLookupByLibrary.simpleMessage("Glad to see you"),
         "great": MessageLookupByLibrary.simpleMessage("Great!"),
@@ -46,7 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("ОК"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "replaceQR": MessageLookupByLibrary.simpleMessage("Replace QR Code"),
-        "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "save": MessageLookupByLibrary.simpleMessage("   Save  "),
         "scanQR": MessageLookupByLibrary.simpleMessage("Scan the QR code"),
         "showQR": MessageLookupByLibrary.simpleMessage("Show QR code"),
         "showWhenStarted": MessageLookupByLibrary.simpleMessage(
