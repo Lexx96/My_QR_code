@@ -2,7 +2,7 @@
     package="com.kofami.qr_coder">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="qr_coder"
+        android:label="Я Привит"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
